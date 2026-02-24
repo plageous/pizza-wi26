@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+</head>
+<body>
+    <h1>Thank you for your order, <%= order.fname %>!</h1>
+    <h2>Order Details</h2>
+    <p>Name: <%= order.fname %> <%= order.lname %></p>
+    <p>Email: <%= order.email %></p>
+    <p>Pickup or Delivery: <%= order.method %></p>
+    <p>Toppings: 
+        <%= Array.isArray(order.toppings) ?
+            order.toppings.join(', ') :
+            "No toppings" %>
+    </p>
+    <p>Toppings: 
+        <% if (Array.isArray(order.toppings)) { %>
+            <%= order.toppings.join(', ') %>
+        <% } else { %>
+            No toppings
+        <% } %>
+    </p>     
+        
+    <p>Size: <%= order.size %></p>
+    <p>Comment: <%= order.comment %></p>
+    <p>Date/Time: <%= order.timestamp.toLocaleString() %></p>
+    
+    <a href="/">Place another Order</a>
+</body>
+</html>
+
+<!-- 
+const order = {
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        method: req.body.method,
+        toppings: req.body.toppings ? req.body.toppings : "none",
+        size: req.body.size,
+        comment: req.body.comment,
+        timestamp: new Date()
+    };
+-->
