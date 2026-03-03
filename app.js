@@ -1,7 +1,10 @@
 import express from 'express';
+import mysql2 from 'mysql2'
+import dotenv from 'dotenv'
 const app = express();
 const PORT = 3000;
 app.use(express.static('public'));
+dotenv.config();
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -11,7 +14,15 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 // Create a temp array to store orders
-const orders = []; 
+const orders = [];
+
+const pool = mysql2.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_DATABASE,
+    port: process.env.DB_PORT
+}).promise();
 
 // Default route
 app.get('/', (req, res) => {
@@ -54,6 +65,15 @@ app.post('/submit-order', (req, res) => {
     // Add order object to orders array
     orders.push(order);
     res.render('confirmation', { order });
+});
+
+app.get('/db-test', async(req, res) => {
+    try {
+        const pizza_orders = await pool.query('SELECT * FROM orders');
+        res.send(pizza_orders[0]);
+    } catch (err) {
+        console.log('Database error: ', err);
+    }
 });
 
 // Listen on the designated port
