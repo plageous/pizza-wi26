@@ -1,10 +1,12 @@
 import express from 'express';
 import mysql2 from 'mysql2'
 import dotenv from 'dotenv'
+import { validateForm } from './validation.js';
 const app = express();
 const PORT = 3000;
 app.use(express.static('public'));
 dotenv.config();
+validateForm();
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -53,6 +55,10 @@ app.get('/admin', async(req, res) => {
 // "size":"small","comment":"","discount":"on"}
 app.post('/submit-order', async(req, res) => {
     
+    const order = req.body;
+
+    validateForm(order);
+
     // Create a JSON object to store the order data
     const params = {
         fname: params.fname,
