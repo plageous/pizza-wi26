@@ -12,7 +12,7 @@
      <link rel="stylesheet" href="styles/pizza-styles.css">
 
     <!-- JavaScript -->
-    <script src="pizza.js" defer></script>
+    <!-- script src="js/pizza.js" defer></script -->
 </head>
 <body>
     <main>
@@ -24,6 +24,12 @@
             <p>Come check us out</p>
             <a id="contact-button" href="/contact-us" role="button">Contact Us</a>
         </header>
+
+        <% if (typeof errors != 'undefined') { %>
+            <% errors.forEach(error => { %>
+                <p><%= error %></p>
+            <% }); %>
+        <% } %>
 
         <!-- post method is more secure than get -->
         <form id="pizza-form" action="/submit-order" method="post">

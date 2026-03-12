@@ -6,7 +6,6 @@ const app = express();
 const PORT = 3000;
 app.use(express.static('public'));
 dotenv.config();
-validateForm();
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -57,7 +56,11 @@ app.post('/submit-order', async(req, res) => {
     
     const order = req.body;
 
-    validateForm(order);
+    const valid = validateForm(order);
+    if (!valid.isValid) {
+        console.log(valid);
+        return;
+    }
 
     // Create a JSON object to store the order data
     const params = {
